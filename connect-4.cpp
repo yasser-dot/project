@@ -2,30 +2,30 @@
 #include <iostream>
 using namespace std;
 
-#define CONNECT_4_SIZE 7
+const int SIZE = 7;
 
-inline void print_board_row_separator() {
+void print_board_row_separator() {
   cout << "----+";
-  for (int i = 0; i < CONNECT_4_SIZE - 2; i++) {
+  for (int i = 0; i < SIZE - 2; i++) {
     cout << "---+";
   }
   cout << "----\n";
 }
 
-void print_board(int board[CONNECT_4_SIZE][CONNECT_4_SIZE]) {
+void print_board(int board[SIZE][SIZE]) {
   // numbers of columns
   cout << "| ";
-  for (int i = 1; i <= CONNECT_4_SIZE; i++) {
+  for (int i = 1; i <= SIZE; i++) {
     cout << i;
-    cout << (i == CONNECT_4_SIZE ? " |\n" : " | ");
+    cout << (i == SIZE ? " |\n" : " | ");
   }
   print_board_row_separator();
 
-  for (int i = 0; i < CONNECT_4_SIZE; i++) {
+  for (int i = 0; i < SIZE; i++) {
     cout << '|';
 
     // print cells
-    for (int j = 0; j < CONNECT_4_SIZE; j++) {
+    for (int j = 0; j < SIZE; j++) {
       char c = ' ';
 
       if (board[i][j] == 1)
@@ -41,8 +41,8 @@ void print_board(int board[CONNECT_4_SIZE][CONNECT_4_SIZE]) {
   }
 }
 
-int play_turn(int board[CONNECT_4_SIZE][CONNECT_4_SIZE], int col, bool x_turn) {
-  int i = CONNECT_4_SIZE - 1;
+int play_turn(int board[SIZE][SIZE], int col, bool x_turn) {
+  int i = SIZE - 1;
   for (; board[i][col] != 0; i--)
     ;
 
@@ -51,33 +51,33 @@ int play_turn(int board[CONNECT_4_SIZE][CONNECT_4_SIZE], int col, bool x_turn) {
   return i;
 }
 
-bool check_win(int board[CONNECT_4_SIZE][CONNECT_4_SIZE], int player) {
-  for (int i = 0; i < CONNECT_4_SIZE; i++) {
-    for (int j = 0; j < CONNECT_4_SIZE - 3; j++) {
+bool check_win(int board[SIZE][SIZE], int player) {
+  for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j < SIZE - 3; j++) {
       if (board[i][j] == player && board[i][j + 1] == player &&
           board[i][j + 2] == player && board[i][j + 3] == player)
         return true;
     }
   }
 
-  for (int i = 0; i < CONNECT_4_SIZE - 3; i++) {
-    for (int j = 0; j < CONNECT_4_SIZE; j++) {
+  for (int i = 0; i < SIZE - 3; i++) {
+    for (int j = 0; j < SIZE; j++) {
       if (board[i][j] == player && board[i + 1][j] == player &&
           board[i + 2][j] == player && board[i + 3][j] == player)
         return true;
     }
   }
 
-  for (int i = 0; i < CONNECT_4_SIZE - 3; i++) {
-    for (int j = 0; j < CONNECT_4_SIZE - 3; j++) {
+  for (int i = 0; i < SIZE - 3; i++) {
+    for (int j = 0; j < SIZE - 3; j++) {
       if (board[i][j] == player && board[i + 1][j + 1] == player &&
           board[i + 2][j + 2] == player && board[i + 3][j + 3] == player)
         return true;
     }
   }
 
-  for (int i = 0; i < CONNECT_4_SIZE - 3; i++) {
-    for (int j = 3; j < CONNECT_4_SIZE; j++) {
+  for (int i = 0; i < SIZE - 3; i++) {
+    for (int j = 3; j < SIZE; j++) {
       if (board[i][j] == player && board[i + 1][j - 1] == player &&
           board[i + 2][j - 2] == player && board[i + 3][j - 3] == player)
         return true;
@@ -89,9 +89,9 @@ bool check_win(int board[CONNECT_4_SIZE][CONNECT_4_SIZE], int player) {
 
 void play_connect_4() {
   // 0 = none, 1 = X, 2 = O
-  int board[CONNECT_4_SIZE][CONNECT_4_SIZE] = {};
+  int board[SIZE][SIZE] = {};
 
-  int t = CONNECT_4_SIZE * CONNECT_4_SIZE;
+  int t = SIZE * SIZE;
 
   // true = player x's turn, false = player o's turn
   bool x_turn = true;
@@ -110,14 +110,14 @@ void play_connect_4() {
     cin >> col;
     col--;
 
-    if (col < 0 || col > CONNECT_4_SIZE - 1) {
+    if (col < 0 || col > SIZE - 1) {
       cout << "Invalid move! You are only allowed to input between 1 and "
-           << CONNECT_4_SIZE << ".\n";
+           << SIZE << ".\n";
       continue;
     }
 
     bool column_full = true;
-    for (int i = 0; i < CONNECT_4_SIZE; i++) {
+    for (int i = 0; i < SIZE; i++) {
       if (board[i][col] == 0) {
         column_full = false;
         break;

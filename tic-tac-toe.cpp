@@ -2,27 +2,27 @@
 #include <iostream>
 using namespace std;
 
-#define TIC_TAC_TOE_SIZE 4
+const int SIZE = 4;
 
-inline void print_board_row_separator() {
+void print_board_row_separator() {
   cout << "  ----+";
-  for (int i = 0; i < TIC_TAC_TOE_SIZE - 2; i++) {
+  for (int i = 0; i < SIZE - 2; i++) {
     cout << "---+";
   }
   cout << "----\n";
 }
 
-void print_board(int board[TIC_TAC_TOE_SIZE][TIC_TAC_TOE_SIZE]) {
+void print_board(int board[SIZE][SIZE]) {
   cout << "    ";
-  for (int i = 0; i < TIC_TAC_TOE_SIZE; i++) {
+  for (int i = 0; i < SIZE; i++) {
     cout << i + 1 << "   ";
   }
   cout << '\n';
 
   print_board_row_separator();
-  for (int i = 0; i < TIC_TAC_TOE_SIZE; i++) {
+  for (int i = 0; i < SIZE; i++) {
     cout << i + 1 << " |";
-    for (int j = 0; j < TIC_TAC_TOE_SIZE; j++) {
+    for (int j = 0; j < SIZE; j++) {
       char c = ' ';
       if (board[i][j] == 1) {
         c = 'X';
@@ -37,22 +37,22 @@ void print_board(int board[TIC_TAC_TOE_SIZE][TIC_TAC_TOE_SIZE]) {
   }
 }
 
-bool check_win(int board[TIC_TAC_TOE_SIZE][TIC_TAC_TOE_SIZE], int player) {
+bool check_win(int board[SIZE][SIZE], int player) {
   bool main_diagonal_found = true;
   bool secondary_diagonal_found = true;
 
-  for (int i = 0; i < TIC_TAC_TOE_SIZE; i++) {
+  for (int i = 0; i < SIZE; i++) {
     if (board[i][i] != player) {
       main_diagonal_found = false;
     }
 
-    if (board[i][TIC_TAC_TOE_SIZE - i - 1] != player) {
+    if (board[i][SIZE - i - 1] != player) {
       secondary_diagonal_found = false;
     }
 
     bool horizontal_found = true;
     bool vertical_found = true;
-    for (int j = 0; j < TIC_TAC_TOE_SIZE; j++) {
+    for (int j = 0; j < SIZE; j++) {
       if (board[i][j] != player) {
         horizontal_found = false;
       }
@@ -78,10 +78,10 @@ void play_tic_tac_toe() {
   cout << "Tic-tac-toe!\nPlayer 1 places X and player 2 places O.\n";
 
   // 0 = none, 1 = X, 2 = O
-  int board[TIC_TAC_TOE_SIZE][TIC_TAC_TOE_SIZE] = {};
+  int board[SIZE][SIZE] = {};
 
   bool x_turn = true;
-  int t = TIC_TAC_TOE_SIZE * TIC_TAC_TOE_SIZE;
+  int t = SIZE * SIZE;
   while (t != 0) {
     int player = x_turn ? 1 : 2;
     char c = x_turn ? 'X' : 'O';
@@ -100,10 +100,10 @@ void play_tic_tac_toe() {
     cin >> col;
     col--;
 
-    if (row < 0 || row > TIC_TAC_TOE_SIZE - 1 || col < 0 ||
-        col > TIC_TAC_TOE_SIZE - 1) {
+    if (row < 0 || row > SIZE - 1 || col < 0 ||
+        col > SIZE - 1) {
       cout << "Invalid move! You may only enter a value from 1 to "
-           << TIC_TAC_TOE_SIZE << ".\n";
+           << SIZE << ".\n";
     }
 
     if (board[row][col] != 0) {
