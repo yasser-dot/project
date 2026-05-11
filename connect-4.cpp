@@ -4,7 +4,7 @@ using namespace std;
 
 const int SIZE = 7;
 
-void print_board_row_separator() {
+void c4_print_board_row_separator() {
   cout << "----+";
   for (int i = 0; i < SIZE - 2; i++) {
     cout << "---+";
@@ -19,7 +19,7 @@ void print_board(int board[SIZE][SIZE]) {
     cout << i;
     cout << (i == SIZE ? " |\n" : " | ");
   }
-  print_board_row_separator();
+  c4_print_board_row_separator();
 
   for (int i = 0; i < SIZE; i++) {
     cout << '|';
@@ -37,7 +37,7 @@ void print_board(int board[SIZE][SIZE]) {
     }
 
     cout << '\n';
-    print_board_row_separator();
+    c4_print_board_row_separator();
   }
 }
 
