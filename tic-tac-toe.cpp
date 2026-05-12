@@ -1,4 +1,5 @@
 #include "tic-tac-toe.hpp"
+#include "common.hpp"
 #include <iostream>
 using namespace std;
 
@@ -14,23 +15,23 @@ void ttt_print_board_row_separator() {
 
 void print_board(int board[SIZE][SIZE]) {
   cout << "    ";
-  for (int i = 0; i < SIZE; i++) {
-    cout << i + 1 << "   ";
+  for (int i = 1; i <= SIZE; i++) {
+    cout << i << "   ";
   }
   cout << '\n';
-
   ttt_print_board_row_separator();
+
   for (int i = 0; i < SIZE; i++) {
     cout << i + 1 << " |";
     for (int j = 0; j < SIZE; j++) {
-      char c = ' ';
+      string s = " ";
       if (board[i][j] == 1) {
-        c = 'X';
+        s = RED "X" RESET;
       } else if (board[i][j] == 2) {
-        c = 'O';
+        s = BLUE "O" RESET;
       }
 
-      cout << ' ' << c << " |";
+      cout << ' ' << s << " |";
     }
     cout << '\n';
     ttt_print_board_row_separator();
@@ -40,7 +41,6 @@ void print_board(int board[SIZE][SIZE]) {
 bool check_win(int board[SIZE][SIZE], int player) {
   bool main_diagonal_found = true;
   bool secondary_diagonal_found = true;
-
   for (int i = 0; i < SIZE; i++) {
     if (board[i][i] != player) {
       main_diagonal_found = false;
@@ -82,11 +82,10 @@ void play_tic_tac_toe() {
 
   bool x_turn = true;
   int t = SIZE * SIZE;
+  print_board(board);
   while (t != 0) {
     int player = x_turn ? 1 : 2;
     char c = x_turn ? 'X' : 'O';
-
-    print_board(board);
 
     cout << "It's player " << player << "'s turn!\n";
     cout << "Player " << player << " picks a location on the board to place "
@@ -100,14 +99,16 @@ void play_tic_tac_toe() {
     cin >> col;
     col--;
 
-    if (row < 0 || row > SIZE - 1 || col < 0 ||
-        col > SIZE - 1) {
-      cout << "Invalid move! You may only enter a value from 1 to "
-           << SIZE << ".\n";
+    if (row < 0 || row > SIZE - 1 || col < 0 || col > SIZE - 1) {
+      print_board(board);
+      cout << RED "Invalid move! You may only enter a value from 1 to " << SIZE
+           << ".\n" RESET;
+      continue;
     }
 
     if (board[row][col] != 0) {
-      cout << "Invalid move! The location you picked is not empty.\n";
+      print_board(board);
+      cout << RED "Invalid move! The location you picked is not empty.\n" RESET;
       continue;
     }
 
@@ -115,10 +116,11 @@ void play_tic_tac_toe() {
 
     if (check_win(board, player)) {
       print_board(board);
-      cout << "Player " << player << " won!\n";
+      cout << GREEN "Player " << player << " won!\n" RESET;
       return;
     }
 
+    print_board(board);
     x_turn = !x_turn;
     t--;
   }

@@ -1,4 +1,5 @@
 #include "connect-4.hpp"
+#include "common.hpp"
 #include <iostream>
 using namespace std;
 
@@ -26,29 +27,19 @@ void print_board(int board[SIZE][SIZE]) {
 
     // print cells
     for (int j = 0; j < SIZE; j++) {
-      char c = ' ';
+      string s = " ";
 
       if (board[i][j] == 1)
-        c = 'X';
+        s = RED "X" RESET;
       else if (board[i][j] == 2)
-        c = 'O';
+        s = BLUE "O" RESET;
 
-      cout << ' ' << c << " |";
+      cout << ' ' << s << " |";
     }
 
     cout << '\n';
     c4_print_board_row_separator();
   }
-}
-
-int play_turn(int board[SIZE][SIZE], int col, bool x_turn) {
-  int i = SIZE - 1;
-  for (; board[i][col] != 0; i--)
-    ;
-
-  board[i][col] = x_turn ? 1 : 2;
-
-  return i;
 }
 
 bool check_win(int board[SIZE][SIZE], int player) {
@@ -98,11 +89,11 @@ void play_connect_4() {
 
   cout << "Connect-4!\nPlayer 1 places X and player 2 places O.\n";
 
+  print_board(board);
   while (t != 0) {
     int player = x_turn ? 1 : 2;
     char c = x_turn ? 'X' : 'O';
 
-    print_board(board);
     cout << "It's player " << player << "'s turn!\n";
     cout << "Player " << player << " picks a column to place " << c << ": ";
 
@@ -111,32 +102,29 @@ void play_connect_4() {
     col--;
 
     if (col < 0 || col > SIZE - 1) {
-      cout << "Invalid move! You are only allowed to input between 1 and "
-           << SIZE << ".\n";
+      print_board(board);
+      cout << RED "Invalid move! You are only allowed to input between 1 and "
+           << SIZE << ".\n" RESET;
       continue;
     }
 
-    bool column_full = true;
-    for (int i = 0; i < SIZE; i++) {
-      if (board[i][col] == 0) {
-        column_full = false;
-        break;
-      }
-    }
-
-    if (column_full) {
-      cout << "Invalid move! Column is full!\n";
+    if (board[0][col] != 0) {
+      print_board(board);
+      cout << RED "Invalid move! Column is full!\n" RESET;
       continue;
     }
 
-    int row = play_turn(board, col, x_turn);
+    int i = SIZE - 1;
+    while (board[i][col] != 0) i--;
+    board[i][col] = x_turn ? 1 : 2;
 
     if (check_win(board, player)) {
       print_board(board);
-      cout << "Player " << player << " won!\n";
+      cout << GREEN "Player " << player << " won!\n" RESET;
       return;
     }
 
+    print_board(board);
     x_turn = !x_turn;
     t--;
   }
